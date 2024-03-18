@@ -13,19 +13,19 @@ import CurrencyForm from './components/Currency';
 const items = [
     {
         id: 1,
-        value: 'Pounds',
+        value: '£ Pounds',
     },
     {
         id: 2,
-        value: 'Dollars',
+        value: '$ Dollars',
     },
     {
         id: 3,
-        value: 'Euros',
+        value: '€ Euros',
     },
     {
         id: 4,
-        value: 'Rupee',
+        value: '₹ Rupee',
     },
 ];
 
