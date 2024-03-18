@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import onClickOutside from 'react-onclickoutside';
+import { useCurrency } from './CurrencyContex';
 
-function CurrencyForm({title, items, multiSelect = false}) {
+function CurrencyForm({ title, items, multiSelect = false }) {
+    const { setCurrency } = useCurrency();
     const [open , setOpen] = useState(false);
     const [selection, setSelection] = useState([]);
     const toggle = () => setOpen(!open);
     CurrencyForm.handleClickOutside = () => setOpen(false);
 
     function handleOnClick(item) {
+        setCurrency({ Symbol: item.Symbol, code: item.code });
         if (!selection.some(current => current.id === item.id)) {
           if (!multiSelect) {
             setSelection([item]);
