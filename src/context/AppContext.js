@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useReducer, useContext } from 'react'; // Import useContext from react
 
 // 5. The reducer - this is used to update the state, based on the action
 export const AppReducer = (state, action) => {
@@ -65,11 +65,10 @@ export const AppReducer = (state, action) => {
                 ...state,
             };
         case 'CHG_CURRENCY':
-            action.type = "DONE";
-            state.currency = action.payload;
             return {
-                ...state
-            }
+                ...state,
+                currency: action.payload,
+            }            
 
         default:
             return state;
@@ -86,6 +85,7 @@ const initialState = {
         { id: "Human Resource", name: 'Human Resource', cost: 40 },
         { id: "IT", name: 'IT', cost: 500 },
     ],
+    
     currency: '£'
 };
 
@@ -96,7 +96,7 @@ export const AppContext = createContext();
 // Accepts the children, which are the nested(wrapped) components
 export const AppProvider = (props) => {
     // 4. Sets up the app state. takes a reducer, and an initial state
-    const [state, dispatch] = useReducer(AppReducer, initialState);
+    const [state, dispatch] = useReducer(AppReducer, initialState); // Uncomment to use dispatch
     let remaining = 0;
 
     if (state.expenses) {
