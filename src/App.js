@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.scss';
-
+import { CurrencyProvider } from './components/CurrencyContex';
 import { AppProvider } from './context/AppContext';
 import Budget from './components/Budget';
 import ExpenseTotal from './components/ExpenseTotal';
@@ -14,10 +14,12 @@ const items = [
     {
         id: 1,
         value: '£ Pounds',
+        Symbol: '£'
     },
     {
         id: 2,
         value: '$ Dollars',
+        Symbol: '$'
     },
     {
         id: 3,
@@ -32,6 +34,8 @@ const items = [
 const App = () => {
     return (
         <AppProvider>
+            <CurrencyProvider>
+        
             <div className='container'>
                 <h1 className='mt-3'>Company's Budget Allocation</h1>
                 <div className='row mt-3'>
@@ -61,6 +65,7 @@ const App = () => {
                     </div>
                 </div>
             </div>
+            </CurrencyProvider>
         </AppProvider>
     );
 };
