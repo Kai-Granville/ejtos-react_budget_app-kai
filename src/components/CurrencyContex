@@ -1,0 +1,17 @@
+import React, { createContext, useContext, useState } from 'react';
+
+const CurrencyContext = createContext();
+
+export function useCurrency() {
+  return useContext(CurrencyContext);
+}
+
+export const CurrencyProvider = ({ children }) => {
+  const [currency, setCurrency] = useState({ symbol: '£', code: 'GBP' }); // Default currency
+
+  return (
+    <CurrencyContext.Provider value={{ currency, setCurrency }}>
+      {children}
+    </CurrencyContext.Provider>
+  );
+};
