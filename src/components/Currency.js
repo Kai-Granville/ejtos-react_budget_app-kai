@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import onClickOutside from 'react-onclickoutside';
 
-function CurrencyForm({title, items, multiSelect = false}){
-    const [open , setOpen] = useState=false;
+function CurrencyForm({title, items, multiSelect = false}) {
+    const [open , setOpen] = useState(false);
     const [selection, setSelection] = useState([]);
-    const toggle = () => (!open);
+    const toggle = () => setOpen(!open);
     CurrencyForm.handleClickOutside = () => setOpen(false);
 
     function handleOnClick(item) {
@@ -39,14 +39,15 @@ function CurrencyForm({title, items, multiSelect = false}){
                 role="button" 
                 onKeyPress={() => toggle(!open)} 
                 onClick={() => toggle(!open)}
-                >
+            >
 
                 <div className="dd-header_title">
                     <p className="dd-header-title--bold">{title}</p>
                 </div>
                 <div className="dd-header_action">
-                    <p>{open ? 'Close' : 'Open'}</p>
+                    <p>{selection.length > 0 ? selection.map(item => item.value).join(', ') : (open ? '' : '')}</p>
                 </div>
+
                 {open && (
                     <ul className="dd-list">
                         {items.map(item =>(
