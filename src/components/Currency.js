@@ -1,45 +1,72 @@
-import React, { useContext, useState } from 'react';
-import { AppContext } from '../context/AppContext';
+import React, { useState } from "react";
+import onClickOutside from 'react-onclickoutside';
 
-const CurrencyForm = (props) => {
-    const { dispatch,remaining  } = useContext(AppContext);
+function CurrencyForm({title, items, multiSelect = false}){
+    const [open , setOpen] = useState=false;
+    const [selection, setSelection] = useState([]);
+    const toggle = () => (!open);
+    CurrencyForm.handleClickOutside = () => setOpen(false);
 
-    };
+    function handleOnClick(item) {
+        if (!selection.some(current => current.id === item.id)) {
+          if (!multiSelect) {
+            setSelection([item]);
+          } else if (multiSelect) {
+            setSelection([...selection, item]);
+          }
+        } else {
+          let selectionAfterRemoval = selection;
+          selectionAfterRemoval = selectionAfterRemoval.filter(
+            current => current.id !== item.id
+          );
+          setSelection([...selectionAfterRemoval]);
+        }
+      }
+    
+      function isItemInSelection(item) {
+        if (selection.some(current => current.id === item.id)) {
+          return true;
+        }
+        return false;
+      }
 
-    return (
-        <div>
-            <div className='row'>
 
-            <div className="input-group mb-3" style={{ marginLeft: '2rem' }}>
-                    <div className="input-group-prepend">
-                <label className="input-group-text" htmlFor="inputGroupSelect01">Currency</label>
-                  </div>
-                  <select className="custom-select" id="inputGroupSelect01" onChange={(event) => setName(event.target.value)}>
-                        <option defaultValue>Choose...</option>
-                        <option value="Pounds" name="Pounds"> £ Pounds</option>
-                <option value="Dollar" name="Dollar">$ Dollar</option>
-                <option value="Euro" name="Euro">€ Euro</option>
-                <option value="Rupee" name="Rupee">Rupee</option>
-                  </select>
+    return(
+        <div className="dd-wrapper">
+            <div 
+                className="dd-header" 
+                tableindex={0} 
+                role="button" 
+                onKeyPress={() => toggle(!open)} 
+                onClick={() => toggle(!open)}
+                >
 
-                    {/* <input
-                        required='required'
-                        type='number'
-                        id='cost'
-                        value={cost}
-                        style={{ marginLeft: '2rem' , size: 10}}
-                        onChange={(event) => setCost(event.target.value)}>
-                        </input> */}
-
-                    <button className="btn btn-primary" onClick={submitEvent} style={{ marginLeft: '2rem' }}>
-                        Save
-                    </button>
+                <div className="dd-header_title">
+                    <p className="dd-header-title--bold">{title}</p>
                 </div>
+                <div className="dd-header_action">
+                    <p>{open ? 'Close' : 'Open'}</p>
                 </div>
-
+                {open && (
+                    <ul className="dd-list">
+                        {items.map(item =>(
+                            <li className=" dd-item-list" key={item.id}>
+                                <button type="button" onClick={() => handleOnClick(item)}>
+                                    <span>{item.value}</span>
+                                    <span>{isItemInSelection(item) && 'Selected'}</span>
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
         </div>
     );
-};
+}
 
-export default CurrencyForm;
+const clickOutsideConfig = {
+    handleClickOutside: () => CurrencyForm.handleClickOutside,
+  };
+  
 
+export default onClickOutside(CurrencyForm, clickOutsideConfig);
